@@ -1,8 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
+import { getNewUserResource } from "../../services/message.service";
 
 export const SignupButton = () => {
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithRedirect, getAccessTokenSilently } = useAuth0();
 
   const handleSignUp = async () => {
     await loginWithRedirect({
@@ -14,6 +15,10 @@ export const SignupButton = () => {
         screen_hint: "signup",
       },
     });
+    const accessToken = await getAccessTokenSilently();
+    const { data, error } = await getNewUserResource(accessToken);
+    if (error) console.log(error);
+    console.log(data);
   };
 
   return (

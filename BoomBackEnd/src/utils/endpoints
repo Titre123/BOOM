@@ -1,14 +1,21 @@
 User Endpoints:
-GET /api/users/{id}: Get user information by ID
-PUT /api/users/{id}: Update user information by ID
-DELETE /api/users/{id}: Delete user information by ID
+<!-- GET /users: Retrieves a list of all users registered on the app. -->
+<!-- GET /users/:id: Retrieves information about a specific user by their ID. -->
+<!-- POST /users: Creates a new user account.  -->
+<!-- PUT /users/:id: Updates information for a specific user by their ID. -->
+<!-- DELETE /users/:id: Deletes a specific user by their ID. -->
+POST /users/:id/playlists: Creates a new playlist for the specified user.
+DELETE /users/:id/playlists/:playlist_id: Deletes a playlist created by the specified user.
+PUT /users/:id/playlists/:playlist_id: Updates a playlist created by the specified user.
+GET /users/:id/playlists
+GET /users/:id/playlists/:id
 
 Song Endpoints:
-GET /api/songs: Get a list of all songs
-GET /api/songs/{id}: Get song information by ID
-POST /api/songs: Add a new song
-PUT /api/songs/{id}: Update song information by ID
-DELETE /api/songs/{id}: Delete song information by ID
+<!-- GET /api/songs: Get a list of all songs -->
+<!-- GET /api/songs/{id}: Get song information by ID -->
+<!-- POST /api/songs: Add a new song -->
+<!-- PUT /api/songs/{id}: Update song information by ID -->
+<!-- DELETE /api/songs/{id}: Delete song information by ID -->
 
 
 Playlist Endpoints:

@@ -15,9 +15,10 @@ import { LoginButton } from "./components/buttons/login-button";
 import { SignupButton } from "./components/buttons/signup-button";
 import { LogoutButton } from "./components/buttons/logout-button";
 import { getProtectedResource } from "./services/message.service";
+import SongForm from "./pages/postSong";
 
 export const App = () => {
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [message, setMessage] = useState();
   
   // if (isLoading) {
@@ -79,6 +80,9 @@ export const App = () => {
       <SignupButton />
 
       <p>{message}</p>
+      {
+        isAuthenticated && <SongForm />
+      }
     </div>
   );
 };

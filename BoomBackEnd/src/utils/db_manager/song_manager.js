@@ -1,11 +1,11 @@
-import dbClient from "../db";
+const {dbClient} = require('../db');
 
 class Song {
   
     // query through the user collection and get a single user based on a query
-  async findSong(query) {
+  static async findSong(query) {
     if (dbClient.isAlive() === true) {
-      const collection = this.db.collection('songs');
+      const collection = dbClient.db.collection('songs');
       const data = await collection.findOne(query);
       return data;
     }
@@ -13,9 +13,9 @@ class Song {
   }
 
     // query through the user collection and get a all user based on a query
-  async findSongs(query) {
+  static async findSongs(query) {
     if (dbClient.isAlive() === true) {
-      const collection = this.db.collection('songs');
+      const collection = dbClient.db.collection('songs');
       const data = await collection.find(query).toArray();
       return data;
     }
@@ -23,9 +23,9 @@ class Song {
   }
 
 //   insert into the database a new user
-  async insertSong(song) {
+  static async insertSong(song) {
     if (dbClient.isAlive() === true) {
-      const collection = this.db.collection('songs');
+      const collection = dbClient.db.collection('songs');
       const data = await collection.insertOne(song);
       return data;
     }
@@ -33,12 +33,12 @@ class Song {
   }
 
 //   update a user with an existing or a new field
-  async updateSong(song, field, value) {
+  static async updateSong(song, changes) {
     if (dbClient.isAlive() === true) {
-      const collection = this.db.collection('songs');
+      const collection = dbClient.db.collection('songs');
       const data = await collection.findOneAndUpdate(
         {_id: song._id},
-        {$set: {[field]: value}},
+        {$set: changes},
         {returnNewDocument: true}
       );
       return data.value;
@@ -46,10 +46,12 @@ class Song {
   }
 
 //   delete user that match the query parameter
-  async deleteSong(query) {
+  static async deleteSong(query) {
     if(dbClient.isAlive() === true) {
-      const collection = this.db.collection('songs');
+      const collection = dbClient.db.collection('songs');
       const data = await collection.deleteMany(query);
     }
   }
 }
+
+module.exports = {Song};

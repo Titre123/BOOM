@@ -19,12 +19,12 @@ messagesRouter.get("/public", (req, res) => {
 messagesRouter.get("/protected", validateAccessToken, async (req, res) => {
   const [bear, credentials] = req.headers.authorization.split(' ');
   const decoded = jwt_decode(credentials);
+  console.log(credentials);
   const response = await axios.get('https://taiwotriumphant.eu.auth0.com/userinfo', {
     headers: {
       authorization: `Bearer ${credentials}`
     }
   })
-  console.log(response)
   const message = getProtectedMessage();
 
   res.status(200).send(response.data);

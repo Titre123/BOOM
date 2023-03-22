@@ -1,11 +1,11 @@
-import dbClient from "../db";
+const {dbClient} = require('../db')
 
 class User {
   
     // query through the user collection and get a single user based on a query
-  async findUser(query) {
+  static async findUser(query) {
     if (dbClient.isAlive() === true) {
-      const collection = this.db.collection('users');
+      const collection = dbClient.db.collection('users');
       const data = await collection.findOne(query);
       return data;
     }
@@ -13,9 +13,9 @@ class User {
   }
 
     // query through the user collection and get a all user based on a query
-  async findUsers(query) {
+  static async findUsers(query) {
     if (dbClient.isAlive() === true) {
-      const collection = this.db.collection('users');
+      const collection = dbClient.db.collection('users');
       const data = await collection.find(query).toArray();
       return data;
     }
@@ -23,9 +23,9 @@ class User {
   }
 
 //   insert into the database a new user
-  async insertUser(user) {
+  static async insertUser(user) {
     if (dbClient.isAlive() === true) {
-      const collection = this.db.collection('users');
+      const collection = dbClient.db.collection('users');
       const data = await collection.insertOne(user);
       return data;
     }
@@ -33,12 +33,12 @@ class User {
   }
 
 //   update a user with an existing or a new field
-  async updateUser(user, field, value) {
+  static async updateUser(user, changes) {
     if (dbClient.isAlive() === true) {
-      const collection = this.db.collection('users');
+      const collection = dbClient.db.collection('users');
       const data = await collection.findOneAndUpdate(
         {_id: user._id},
-        {$set: {[field]: value}},
+        {$set: changes},
         {returnNewDocument: true}
       );
       return data.value;
@@ -46,10 +46,12 @@ class User {
   }
 
 //   delete user that match the query parameter
-  async deleteUser(query) {
+  static async deleteUser(query) {
     if(dbClient.isAlive() === true) {
-      const collection = this.db.collection('users');
+      const collection = dbClient.db.collection('users');
       const data = await collection.deleteMany(query);
     }
   }
 }
+
+module.exports = {User};
