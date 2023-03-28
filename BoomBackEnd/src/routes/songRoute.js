@@ -9,4 +9,5 @@ songRouter.get('/', validateAccessToken, songController.getSongs);
 songRouter.get('/:id', validateAccessToken, songController.getSong);
 songRouter.put('/:id', validateAccessToken, songController.updateSong);
 songRouter.delete('/:id', validateAccessToken, songController.deleteSong);
+songRouter.put('/:id/play', validateAccessToken, songController.addPlay)
 module.exports = {songRouter};

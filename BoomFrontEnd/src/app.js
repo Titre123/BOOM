@@ -1,6 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import {React, useState, useEffect} from "react";
-// import { Route, Routes } from "react-router-dom";
+import React, { useState, useEffect} from "react";
+import HomePage from "./pages/homepage";
+import Dashboard from "./pages/dashboard";
+import { BrowserRouter as Router, Switch, Route, Link, Routes } from "react-router-dom";
 // import { PageLoader } from "./components/page-loader";
 // import { AuthenticationGuard } from "./components/authentication-guard";
 // import { AdminPage } from "./pages/admin-page";
@@ -11,17 +13,12 @@ import {React, useState, useEffect} from "react";
 // import { ProtectedPage } from "./pages/protected-page";
 // import { PublicPage } from "./pages/public-page";
 // import { PageLoader } from './components/page-loader'
-import { LoginButton } from "./components/buttons/login-button";
-import { SignupButton } from "./components/buttons/signup-button";
-import { LogoutButton } from "./components/buttons/logout-button";
-import { getProtectedResource } from "./services/message.service";
-import SongForm from "./pages/postSong";
 
-export const App = () => {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-  const [message, setMessage] = useState();
-  
-  // if (isLoading) {
+export const MyLoginInfo = React.createContext();
+export const App = () => {  
+  const [userId, setuserId] = useState('');
+  console.log(userId);
+    // if (isLoading) {
   //   return (
   //     <div className="page-layout">
   //       <PageLoader />
@@ -29,32 +26,6 @@ export const App = () => {
   //   );
   // }
 
-  useEffect(() => {
-    let isMounted = true;
-
-    const getMessage = async () => {
-      const accessToken = await getAccessTokenSilently();
-      const { data, error } = await getProtectedResource(accessToken);
-
-      if (!isMounted) {
-        return;
-      }
-
-      if (data) {
-        setMessage(JSON.stringify(data, null, 2));
-      }
-
-      if (error) {
-        setMessage(JSON.stringify(error, null, 2));
-      }
-    };
-
-    getMessage();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [getAccessTokenSilently]);
   return (
     // <Routes>
     //   <Route path="/" element={<HomePage />} />
@@ -74,15 +45,13 @@ export const App = () => {
     //   <Route path="/callback" element={<CallbackPage />} />
     //   <Route path="*" element={<NotFoundPage />} />
     // </Routes>
-    <div>
-      <LoginButton />
-      <LogoutButton />
-      <SignupButton />
-
-      <p>{message}</p>
-      {
-        isAuthenticated && <SongForm />
-      }
-    </div>
+    <MyLoginInfo.Provider value={[userId, setuserId]}>
+      <div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/user/me" element={<Dashboard />} />
+      </Routes>
+      </div>
+    </MyLoginInfo.Provider>
   );
 };

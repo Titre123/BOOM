@@ -2,6 +2,7 @@ const axios = require('axios');
 const {ObjectId} = require('mongodb');
 const {Song} = require('../utils/db_manager/song_manager');
 const {User} = require('../utils/db_manager/user_manager');
+const {dbClient} = require('../utils/db');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const fs = require('fs');
@@ -30,6 +31,11 @@ const fileFilter = function(req, file, cb) {
 
 // Set up multer instance
 const upload = multer({ storage: storage, fileFilter: fileFilter, limits: { fileSize: 10 * 1024 * 1024 } });
+
+// find song by Id
+async function findSongById(songId) {
+  return await Song.findSong({ _id: new ObjectId(songId) });
+}
 
 class songController {
 
@@ -113,7 +119,7 @@ class songController {
               }
             };
             const result = await Song.insertSong(toInsert);
-            const song = await Song.findSong({ _id: new ObjectId(result.insertedId) });
+            const song = await findSongById(result.insertedId);
             res.status(201).json(song);
           } else {
             return res.status(400).json({ error: 'Song already exists' });
@@ -131,15 +137,15 @@ class songController {
 
     static async getSongs(req, res) {
       const findSongs = await Song.findSongs({});
-      if(findSongs === null || findSongs === undefined) {
+      if(!findSongs) {
         return res.status(400).json({'error': 'No Song Exists'});
       }
       res.status(200).json(findSongs);
     }
 
     static async getSong(req, res) {
-      const findSong = await Song.findSong({_id: new ObjectId(req.params.id)});
-      if(findSong === null || findSong === undefined) {
+      const findSong = await findSongById(req.params.id);
+      if(!findSong) {
         return res.status(400).json({'error': 'Song not found'});
       }
       res.status(201).json(findSong);
@@ -204,15 +210,15 @@ class songController {
           });
 
           const find_user = await User.findUser({ email: response.data.email });
-          if (find_user === null || find_user === undefined) {
+          if (!find_user) {
             return res.status(400).json({ error: 'User does not exist' });
           }
 
-          const find_song = await Song.findSong({ _id: new ObjectId(req.params.id) });
-          if (find_song === null || find_song === undefined) {
+          const find_song = await findSongById(req.params.id);
+          if (!find_song) {
             return res.status(401).json({error: 'Song does not exist'});
           }
-          if (find_user._id != find_song.userId) {
+          if (find_user._id.toString() != find_song.userId.toString()) {
             return res.status(401).json({error: 'Unauthorized'});
           }
           const result = await Song.updateSong(find_song, {
@@ -227,7 +233,7 @@ class songController {
               url: songResponse.secure_url,
             }
           })
-          const new_song = await Song.findSong({ _id: new ObjectId(req.params.id) });
+          const new_song = await findSongById(req.params.id);
           res.status(201).json({'prev': result, 'current': new_song})
         } catch (err) {
           console.error(err);
@@ -241,13 +247,40 @@ class songController {
     }
 
     // delete the user from db based on id
-    static async deleteSong(req, res) {
-      const song = await Song.findSong({_id: new ObjectId(req.params.id)});
-      if(song === null || song === undefined) {
-        return res.status(400).json({'error': 'User not found'});
+  static async deleteSong(req, res) {
+    try {
+      const song = await findSongById(req.params.id);
+      if(!song) {
+        return res.status(400).json({'error': 'Song not found'});
       }
       await Song.deleteSong({_id: new ObjectId(req.params.id)});
       res.status(200).json({'message': 'Song deleted', song: song});
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal server error' });
+    } 
+  }
+
+  static async addPlay() {
+    try{
+      const song = await findSongById(req.params.id);
+      if(!song) {
+        return res.status(400).json({'error': 'Song not found'});
+      }
+      if (!song.hasOwnProperty('plays')) {
+        await dbClient.db.collection('songs').findOneAndUpdate(
+        {_id: song._id},
+        { $set: { [plays]: 1 } })
+      }
+      if (song.plays > 0) {
+        await dbClient.db.collection('songs').findOneAndUpdate(
+        {_id: song._id},
+        { $inc: { [plays]: 1 } })
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
   }
 }
 

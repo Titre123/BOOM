@@ -1,5 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React from "react";
+import React, { useContext } from "react";
+import MyButton from "./button";
+
 
 export const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
@@ -7,7 +9,7 @@ export const LoginButton = () => {
   const handleLogin = async () => {
     await loginWithRedirect({
       appState: {
-        returnTo: "/profile",
+        returnTo: "/user/me",
       },
       authorizationParams: {
         prompt: "login",
@@ -16,8 +18,6 @@ export const LoginButton = () => {
   };
 
   return (
-    <button className="button__login" onClick={handleLogin}>
-      Log In
-    </button>
+    <MyButton value='Sign In' click={handleLogin} />
   );
 };

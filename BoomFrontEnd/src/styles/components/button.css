@@ -1,0 +1,9 @@
+.btn-back {
+    background-image: linear-gradient(135deg, #43CBFF 10%, #9708CC 100%);
+    border-radius: 10px;
+    border: none;
+}
+
+.btn-back:hover {
+    border: none;
+}

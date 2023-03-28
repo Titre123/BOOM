@@ -1,0 +1,32 @@
+.SponsorSection {
+    background: linear-gradient(135deg, #43CBFF 10%, #9708CC 100%);
+    color: #fff;
+    transform: skewY(-5deg);
+}
+
+.SponsorSection-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    transform: skewY(5deg);
+}
+
+.SponsorSection-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.SponsorSection-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.SponsorSection-logos img {
+    transform: scale(40%);
+}
+
+.SponsorSection-logo {
+    max-width: 150px;
+    margin: 0 20px;
+}

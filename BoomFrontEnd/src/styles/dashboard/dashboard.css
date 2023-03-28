@@ -1,0 +1,31 @@
+.dashbg {
+    background: #b7bec8;
+    font-family: Roboto, sans-serif;
+    padding-inline: 1.5rem;
+}
+
+.dashboard {
+    background-color: #fff;
+    backdrop-filter: blur(20px);
+    border: none;
+    border-radius: 20px;
+    backdrop-filter: blur(30px);
+    padding-inline: 1rem;
+}
+
+.sidebar {
+    border-top-left-radius: 1em;
+    border-bottom-left-radius: 1em;
+    /* height: 100vh; */
+}
+
+.outer {
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border: none;
+    border-radius: 20px;
+    -webkit-box-shadow: 5px 3px 10px -6px #000000; 
+    box-shadow: 5px 3px 10px -6px #000000;
+    backdrop-filter: blur(30px);
+    padding: 1rem;
+}

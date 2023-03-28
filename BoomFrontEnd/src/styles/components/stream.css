@@ -1,0 +1,46 @@
+.features-section {
+  padding: 50px 0;
+  font-family: Karla, Merriweather, 'san-serif';
+}
+
+.features-header {
+  text-align: center;
+  margin-bottom: 50px;
+font-family: 'Circular Spotify Tx T Black';
+}
+
+.features-header h2 {
+  font-size: 36px;
+  color: #333;
+}
+
+.features-content {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature {
+  /* flex-basis: calc(33.33% - 20px); */
+  margin-bottom: 40px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.feature h3 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.feature p {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+}
