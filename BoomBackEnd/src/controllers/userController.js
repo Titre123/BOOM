@@ -81,8 +81,9 @@ class userController {
   // get a user in the database based on id
   static async getUser(req, res) {
     try {
-      const find_user = await findSongById(req.params.id);
+      const find_user = await findUserById(req.params.id);
       if (!find_user) {
+        console.log(find_user);
         return res.status(404).json({'error': 'User not found'});
       }
       res.status(201).json(find_user);
@@ -96,7 +97,7 @@ class userController {
   static async updateUser(req, res) {
     try {
       const body = req.body;
-      const user = await findSongById(req.params.id);
+      const user = await findUserById(req.params.id);
       if (!user) {
         return res.status(404).json({'error': 'User not found'});
       }
@@ -112,7 +113,7 @@ class userController {
   // delete the user from db based on id
   static async deleteUser(req, res) {
     try{
-      const user = await findSongById(req.params.id);
+      const user = await findUserById(req.params.id);
       if (!user) {
         return res.status(404).json({'error': 'User not found'});
       }
@@ -177,4 +178,4 @@ class userController {
   }
 }
 
-module.exports = {userController};
+module.exports = {userController, findUserById, findSongById};

@@ -55,20 +55,3 @@ export const getAdminResource = async (accessToken) => {
   };
 };
 
-export const getNewUserResource = async (accessToken) => {
-  const config = {
-    url: `${apiServerUrl}/api/users/`,
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  const { data, error } = await callExternalApi({ config });
-
-  return {
-    data: data || null,
-    error,
-  };
-};

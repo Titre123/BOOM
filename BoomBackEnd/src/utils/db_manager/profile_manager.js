@@ -1,11 +1,11 @@
-const dbClient = require("../db");
+const {dbClient} = require('../db')
 
-class Playlist {
+class User {
   
     // query through the user collection and get a single user based on a query
-  static async findPlaylist(query) {
+  static async findUser(query) {
     if (dbClient.isAlive() === true) {
-      const collection = this.db.collection('playlists');
+      const collection = dbClient.db.collection('users');
       const data = await collection.findOne(query);
       return data;
     }
@@ -13,9 +13,9 @@ class Playlist {
   }
 
     // query through the user collection and get a all user based on a query
-  static async findPlaylists(query) {
+  static async findUsers(query) {
     if (dbClient.isAlive() === true) {
-      const collection = this.db.collection('playlists');
+      const collection = dbClient.db.collection('users');
       const data = await collection.find(query).toArray();
       return data;
     }
@@ -23,21 +23,21 @@ class Playlist {
   }
 
 //   insert into the database a new user
-  static async insertPlaylist(playlist) {
+  static async insertUser(user) {
     if (dbClient.isAlive() === true) {
-      const collection = this.db.collection('playlists');
-      const data = await collection.insertOne(playlist);
+      const collection = dbClient.db.collection('users');
+      const data = await collection.insertOne(user);
       return data;
     }
     return null;
   }
 
 //   update a user with an existing or a new field
-  static async updatePlaylist(playlist, changes) {
+  static async updateUser(user, changes) {
     if (dbClient.isAlive() === true) {
-      const collection = this.db.collection('playlists');
+      const collection = dbClient.db.collection('users');
       const data = await collection.findOneAndUpdate(
-        {_id: playlist._id},
+        {_id: user._id},
         {$set: changes},
         {returnNewDocument: true}
       );
@@ -45,13 +45,13 @@ class Playlist {
     }
   }
 
-// delete user that match the query parameter
-  static async deletePlaylist(query) {
+//   delete user that match the query parameter
+  static async deleteUser(query) {
     if(dbClient.isAlive() === true) {
-      const collection = this.db.collection('playlists');
+      const collection = dbClient.db.collection('users');
       const data = await collection.deleteMany(query);
     }
   }
 }
 
-module.exports = {Playlist};
+module.exports = {User};

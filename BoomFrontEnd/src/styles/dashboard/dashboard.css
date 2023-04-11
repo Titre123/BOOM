@@ -2,6 +2,7 @@
     background: #b7bec8;
     font-family: Roboto, sans-serif;
     padding-inline: 1.5rem;
+    height: 100vh;
 }
 
 .dashboard {
@@ -11,6 +12,7 @@
     border-radius: 20px;
     backdrop-filter: blur(30px);
     padding-inline: 1rem;
+    color: #7f8aa0;
 }
 
 .sidebar {

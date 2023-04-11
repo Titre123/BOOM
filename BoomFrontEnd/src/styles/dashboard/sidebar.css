@@ -8,6 +8,25 @@
     display: flex;
     flex-direction: column;
     gap: 0.8em;
+    font-size: 0.875rem;
+}
+
+.sidebar-items a {
+    font-weight: 600;
+    color: #7f8aa0;
+}
+
+.sidebar-items a:hover {
+    cursor: pointer;
+    background: linear-gradient(135deg, #43CBFF 10%, #9708CC 100%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    border-left: 3px solid;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    border-image-slice: 1;
+    border-width: 3px;
+    border-image-source: linear-gradient(to bottom, #43CBFF, #9708CC);
 }
 
 .update {

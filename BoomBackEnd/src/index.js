@@ -8,6 +8,8 @@ const { errorHandler } = require("./middleware/error.middleware");
 const { notFoundHandler } = require("./middleware/not-found.middleware");
 const {userRouter} = require('./routes/userRoute');
 const {songRouter} = require('./routes/songRoute');
+const { playlistRouter } = require("./routes/playlistRoute");
+const {profileRouter} = require('./routes/profileRoute');
 
 dotenv.config();
 
@@ -63,6 +65,8 @@ app.use("/api", apiRouter);
 apiRouter.use("/messages", messagesRouter);
 apiRouter.use('/users', userRouter);
 apiRouter.use('/songs', songRouter);
+apiRouter.use('/users/:id/playlists', playlistRouter);
+apiRouter.use('/profile', profileRouter)
 
 app.use(errorHandler);
 app.use(notFoundHandler);

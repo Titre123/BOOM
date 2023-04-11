@@ -1,0 +1,16 @@
+.music-line {
+    display: flex;
+    width: 100%;
+    gap: 1em;
+    align-items: center;
+}
+
+.musikImage {
+    border-radius: 4px;
+    max-height: 3em;
+    aspect-ratio: 1;
+}
+
+.music-line:hover {
+    background: #fff;
+}

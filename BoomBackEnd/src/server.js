@@ -1,7 +1,10 @@
 const cloudinary = require('cloudinary').v2;
 const express = require('express');
+const dotenv = require("dotenv");
 const multer = require('multer')
 const fs = require('fs');
+
+dotenv.config();
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -36,6 +39,8 @@ app.post('/upload', async (req, res) => {
         }
       })
   // Retrieve uploaded files from request object
+  console.log(req.files);
+  console.log(req.body);
   const image = req.files.image[0];
   try{
     const response= await cloudinary.uploader.upload(image.path, {

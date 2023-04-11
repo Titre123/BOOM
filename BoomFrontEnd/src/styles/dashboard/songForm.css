@@ -1,0 +1,61 @@
+/* SongForm.css */
+
+.song-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-group label {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group input[type="date"],
+.form-group input[type="time"],
+.form-group input[type="number"],
+.form-group select {
+    padding: 10px;
+    font-size: 0.875rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group input[type="file"] {
+    display: none;
+}
+
+.form-group input[type="file"]+label {
+    display: inline-block;
+    padding: 10px;
+    background: linear-gradient(135deg, #43CBFF 10%, #9708CC 100%);
+    color: #fff;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-group input[type="file"]+label:hover {
+    background: linear-gradient(135deg, #43CBFF 10%, #9708CC 100%);
+}
+
+.form-group textarea {
+    height: 100px;
+}
+
+.form-group button {
+    background: linear-gradient(135deg, #43CBFF 10%, #9708CC 100%);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}

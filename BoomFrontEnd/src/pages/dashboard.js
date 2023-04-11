@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import Sidebar from "../components/dashboard/sidebar";
@@ -7,8 +7,8 @@ import Listeningbar from "../components/dashboard/listeningbar";
 import { MyLoginInfo } from "../app";
 import { useAuth0 } from "@auth0/auth0-react";
 import '../styles/dashboard/dashboard.css';
-import { getNewUserResource } from "../services/message.service";
-
+import {postUserResource} from '../services/user.service';
+import {getSongsResource} from '../services/song.service';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 export const MyContext = React.createContext();
 export const MySearch = React.createContext();
 export const MyToggle = React.createContext();
+export const MyPlaying = React.createContext();
 
 const Dashboard = (props) => {
   const {getAccessTokenSilently} = useAuth0();
@@ -26,13 +27,22 @@ const Dashboard = (props) => {
   const [activeTab, setActiveTab] = useState('Home');
   const [searchValue, setSearchValue] = useState('');
   const [isToggled, setIsToggled] = useState(false);
+  const [isPlaying, setisPlaying] = useState();
   const [userId, setuserId] = useContext(MyLoginInfo);
-  (async () => {
+  const [userInfo, setuserInfo] = useState();
+  const [songs, setSongs] = useState();
+
+  useEffect(() => {
+    (async() => {
     const token = await getAccessTokenSilently();
-    console.log(token);
-    const {data, error} = await getNewUserResource(token);
-    setuserId(data._id);
+    console.log(token )
+    const {data, error} = await postUserResource(token);
+    setuserId(data.user._id);
+    setuserInfo(data.user);
+    const songsNeeded = await getSongsResource(token);
+    setSongs(songsNeeded.data);
   })()
+  }, [])
   return (
     <div className="dashbg">
       <div className="outer">
@@ -43,15 +53,21 @@ const Dashboard = (props) => {
               <Sidebar />
             </MyContext.Provider>
           </Grid>
-          <Grid item xs={12} sm={7} style={{border: '1px solid #000', background: '#f7f8fa', paddingTop: '1em'}}>
+          <Grid item xs={12} sm={7} style={{background: '#f7f8fa', paddingTop: '1em'}}>
             <MySearch.Provider value={[searchValue, setSearchValue]}>
               <MyToggle.Provider value={[isToggled, setIsToggled]}>
-                <Mainbar />
+                <MyPlaying.Provider value={[isPlaying, setisPlaying]}>
+                  <MyContext.Provider value={[activeTab, setActiveTab]}>
+                    <Mainbar user={userInfo} songs={songs}/>
+                  </MyContext.Provider>
+                </MyPlaying.Provider>
               </MyToggle.Provider>
             </MySearch.Provider>
           </Grid>
-          <Grid item xs={12} sm={3} style={{border: '1px solid #000'}}>
-            <Listeningbar />
+          <Grid item xs={12} sm={3} >
+            <MyPlaying.Provider value={[isPlaying, setisPlaying]}>
+            <Listeningbar user={userInfo}/>
+            </MyPlaying.Provider>
           </Grid>
         </Grid>
       </div>

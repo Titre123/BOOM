@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import {useAuth0} from '@auth0/auth0-react'
+import React, { useState } from "react";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
+import '../styles/dashboard/songForm.css';
 
-function SongForm() {
-  const {getAccessTokenSilently} = useAuth0()
-  const [songName, setSongName] = useState('');
+export default function SongForm() {
+  const { getAccessTokenSilently } = useAuth0();
+  const [songTitle, setSongTitle] = useState("");
   const [songFile, setSongFile] = useState(null);
   const [songThumbnail, setSongThumbnail] = useState(null);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [songDescription, setSongDescription] = useState("");
+  const [songReleaseDate, setSongReleaseDate] = useState("");
+  const [duration, setDuration] = useState("");
+  const [songLyrics, setSongLyrics] = useState("");
+  const [songGenre, setSongGenre] = useState("");
+  const [songArtiste, setSongArtiste] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSongNameChange = (event) => {
-    setSongName(event.target.value);
+  const handleSongTitleChange = (event) => {
+    setSongTitle(event.target.value);
   };
 
   const handleSongFileChange = (event) => {
@@ -21,55 +28,128 @@ function SongForm() {
     setSongThumbnail(event.target.files[0]);
   };
 
+  const handleSongDescriptionChange = (event) => {
+    setSongDescription(event.target.value);
+  };
+
+  const handleSongReleaseDateChange = (event) => {
+    setSongReleaseDate(event.target.value);
+  };
+
+  const handleDurationChange = (event) => {
+    setDuration(event.target.value);
+  };
+
+  const handleSongLyricsChange = (event) => {
+    setSongLyrics(event.target.value);
+  };
+
+  const handleSongGenreChange = (event) => {
+    setSongGenre(event.target.value);
+  };
+
+  const handleSongArtisteChange = (event) => {
+    setSongArtiste(event.target.value);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append('songName', songName);
-    formData.append('songFile', songFile);
-    formData.append('songThumbnail', songThumbnail);
+    formData.append("songTitle", songTitle);
+    formData.append("songFile", songFile);
+    formData.append("songThumbnail", songThumbnail);
+    formData.append("songDescription", songDescription);
+    formData.append("songReleaseDate", songReleaseDate);
+    formData.append("duration", duration);
+    formData.append("songLyrics", songLyrics);
+    formData.append("songGenre", songGenre);
+    formData.append("songArtiste", songArtiste);
 
     try {
-      for (let key of formData) {
-        console.log(key[0] + key[1])
-      }
       const ACCESS_TOKEN = await getAccessTokenSilently();
-      const response = await axios.post('http://localhost:6060/api/songs', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${ACCESS_TOKEN}` // replace with your Auth0 access token
+      const response = await axios.post(
+        "http://localhost:6060/api/songs",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
-      });
+      );
 
       console.log(response.data);
     } catch (error) {
       console.error(error);
-      setErrorMessage(error.response.data.error);
+      setErrorMessage(error.response?.data?.error || "An unknown error occurred");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="songName">Song name:</label>
-        <input type="text" id="songName" value={songName} onChange={handleSongNameChange} />
+    <form onSubmit={handleSubmit} className="song-form">
+      <div className="form-group">
+        <label htmlFor="songTitle">Song Title:</label>
+        <input
+          type="text"
+          id="songTitle"
+          value={songTitle}
+          onChange={handleSongTitleChange}
+        />
       </div>
 
-      <div>
-        <label htmlFor="songFile">Song file:</label>
-        <input type="file" id="songFile" onChange={handleSongFileChange} accept="audio/*" />
+      <div className="form-group">
+        <label htmlFor="songFile">Song File:</label>
+        <input
+          type="file"
+          id="songFile"
+          onChange={handleSongFileChange}
+          accept="audio/*"
+        />
       </div>
 
-      <div>
-        <label htmlFor="songThumbnail">Song thumbnail:</label>
-        <input type="file" id="songThumbnail" onChange={handleSongThumbnailChange} accept="image/*" />
+      <div className="form-group">
+        <label htmlFor="songThumbnail">Song Thumbnail:</label>
+        <input
+          type="file"
+          id="songThumbnail"
+          onChange={handleSongThumbnailChange}
+          accept="image/*"
+        />
       </div>
 
-      {errorMessage && <p>{errorMessage}</p>}
+      <div className="form-group">
+        <label htmlFor="songDescription">Song Description:</label>
+        <textarea id="songDescription" value={songDescription} onChange={handleSongDescriptionChange}></textarea>
+      </div>
 
-      <button type="submit">Submit</button>
+      <div className="form-group">
+        <label htmlFor="songReleaseDate">Release Date:</label>
+        <input type="date" id="songReleaseDate" value={songReleaseDate} onChange={handleSongReleaseDateChange} />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="songGenre">Genre:</label>
+        <input type="text" id="songGenre" value={songGenre} onChange={handleSongGenreChange} />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="songArtiste">Artiste:</label>
+        <input type="text" id="songArtiste" value={songArtiste} onChange={handleSongArtisteChange} />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="songLyrics">Lyrics:</label>
+        <textarea id="songLyrics" value={songLyrics} onChange={handleSongLyricsChange} ></textarea>
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="duration">Duration:</label>
+        <input type="text" id="duration" value={duration} onChange={handleDurationChange} />
+      </div>
+      <div className="form-group">
+        <button>Upload</button>
+      </div>
     </form>
-  );
+  )
 }
-
-export default SongForm;

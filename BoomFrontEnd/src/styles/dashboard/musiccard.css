@@ -1,0 +1,14 @@
+.music-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.coverImage {
+    border-radius: 12px;
+    width: 6em;
+    height: 6em;
+}
+
+.music-card p {
+    font-size: 0.875rem;
+}

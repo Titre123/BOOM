@@ -136,19 +136,29 @@ class songController {
     }
 
     static async getSongs(req, res) {
-      const findSongs = await Song.findSongs({});
-      if(!findSongs) {
-        return res.status(400).json({'error': 'No Song Exists'});
+      try{
+        const findSongs = await Song.findSongs({});
+        if(!findSongs) {
+          return res.status(400).json({'error': 'No Song Exists'});
+        }
+        res.status(200).json(findSongs);
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
       }
-      res.status(200).json(findSongs);
     }
 
     static async getSong(req, res) {
-      const findSong = await findSongById(req.params.id);
-      if(!findSong) {
-        return res.status(400).json({'error': 'Song not found'});
+      try{
+        const findSong = await findSongById(req.params.id);
+        if(!findSong) {
+          return res.status(400).json({'error': 'Song not found'});
+        }
+        res.status(201).json(findSong);
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
       }
-      res.status(201).json(findSong);
     }
 
     static async updateSong(req, res) {
@@ -284,4 +294,4 @@ class songController {
   }
 }
 
-module.exports = {songController};
+module.exports = {songController}

@@ -13,7 +13,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div style={{paddingLeft: '1em',  border: '1px solid #000'}}>
+    <div style={{paddingLeft: '1em'}}>
       <Nav vertical style={{display: 'flex', flexDirection: 'column', gap: '2em'}}>
       <NavbarBrand href='/'>Boom</NavbarBrand>
       <div className="sidebar-items">
@@ -22,7 +22,7 @@ const Sidebar = () => {
           <NavLink
             className={activeTab === 'Home' ? `flex active` : "flex"}
             onClick={() => toggle('Home')}
-          ><FontAwesomeIcon icon={faHome} />
+          ><FontAwesomeIcon icon={faHome} className='link-icon'/>
             Home
           </NavLink>
         </NavItem>
@@ -39,7 +39,7 @@ const Sidebar = () => {
             className={activeTab === 'Artistes' ? `flex active` : "flex"}
             onClick={() => toggle('Artistes')}
           ><FontAwesomeIcon icon={faUser} />
-            Artistes
+            Add Song
           </NavLink>
         </NavItem>
         <NavItem>
