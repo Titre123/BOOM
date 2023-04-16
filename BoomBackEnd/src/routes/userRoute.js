@@ -10,7 +10,6 @@ userRouter.get('/', validateAccessToken, userController.getUsers);
 userRouter.get('/:id', validateAccessToken, userController.getUser);
 userRouter.put('/:id', validateAccessToken, userController.updateUser);
 userRouter.delete('/:id', validateAccessToken, userController.deleteUser);
-userRouter.put('/:id/like/:songId', validateAccessToken, userController.likeSong)
-userRouter.put('/:id/like/:songId', validateAccessToken, userController.likeSong)
+userRouter.put('/:id/like/:songId', validateAccessToken, userController.likeSong);
 
 module.exports = {userRouter};

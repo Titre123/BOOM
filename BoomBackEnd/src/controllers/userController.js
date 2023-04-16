@@ -55,7 +55,7 @@ class userController {
       if (!find_user) {
         const result = await User.insertUser(response.data);
         const user = await findUserById(result.insertedId);
-        return res.status(201).json(user);
+        return res.status(201).json({user});
       }
       return res.status(200).json({user: find_user});
     } catch (error) {
